@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxrv450m03klr"]
+
+[ext_resource type="Script" path="res://script/ManaBackend.gd" id="1_j2q5d"]
+
+[node name="ManaBackend" type="Node"]
+script = ExtResource("1_j2q5d")

@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://4i03ua8e5end"]
+
+[ext_resource type="Script" path="res://script/manaHarvest.gd" id="1_61ki8"]
+
+[node name="ManaHarvest" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_61ki8")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 379.0
+offset_top = 228.0
+offset_right = 620.0
+offset_bottom = 400.0
+max_value = 50.0
+value = 50.0
+fill_mode = 3
+show_percentage = false
+
+[node name="ManaLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 380.0
+offset_top = 154.0
+offset_right = 621.0
+offset_bottom = 222.0
+text = "0 / 10"
+horizontal_alignment = 1
+vertical_alignment = 1
