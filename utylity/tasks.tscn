@@ -4,11 +4,26 @@
 script/source = "extends Node
 
 
+var ManaBackend = null
+
 func _ready():
 	pass # Replace with function body.
 
 func get_task_list():
 	return task_obj
+
+func set_mana_backend(mana_backend):
+	ManaBackend = mana_backend
+	
+func reword_max_mana(task):
+	task['task_run_num'] += 1
+	ManaBackend.max_mana += 1
+
+func reword_power(task):
+	task['task_run_num'] += 1
+	
+func valid_cost_item(task):
+	return floor( task['task_run_num']*task['task_mana_increment']+task['task_mana_cost'])
 
 var task_obj = {
 	'ebcbfc7a-3da5-44ed-b7a7-32840a240357':{
@@ -18,7 +33,9 @@ var task_obj = {
 		'task_step_increment': 1,
 		'task_mana_cost': 5,
 		'task_mana_increment': 0.1,
-		'reword':'max_mana'
+		'task_run_num':0,
+		'reword':reword_max_mana,
+		'valid':valid_cost_item
 	},
 	'3a89a33e-bbcb-422f-8465-4ec554ecf359':{
 		'task_grupe':'attributes',
@@ -27,7 +44,9 @@ var task_obj = {
 		'task_step_increment': 1,
 		'task_mana_cost': 5,
 		'task_mana_increment': 0.1,
-		'reword':'power'
+		'task_run_num':0,
+		'reword':reword_power,
+		'valid':valid_cost_item
 	}
 }
 "

@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2yfwkqunknbf"]
+[gd_scene load_steps=5 format=3 uid="uid://dr1k4w1ykdcr6"]
 
 [ext_resource type="PackedScene" uid="uid://4i03ua8e5end" path="res://mana_harvest.tscn" id="2_ghu4h"]
 [ext_resource type="PackedScene" uid="uid://4ss8qvvr8x0j" path="res://experimental.tscn" id="3_ooko8"]
-[ext_resource type="PackedScene" uid="uid://dxrv450m03klr" path="res://mana_backend.tscn" id="3_rjkev"]
+[ext_resource type="PackedScene" uid="uid://dxrv450m03klr" path="res://attributes_backend.tscn" id="3_rjkev"]
 
 [sub_resource type="GDScript" id="GDScript_q2qxx"]
 script/source = "extends Node2D

@@ -8,22 +8,45 @@ var task_json_obj = {}
 
 var TaskEXpProgrex = preload(\"res://commponent/exp_progres.tscn\")
 
+var task_items = []
+
+signal task_end(uuid)
+signal task_start(uuid)
+
 
 func _ready():
 	pass 
 
 func set_task_grupe(txt_grupe):
 	task_grupe=txt_grupe
+	$Panel/Label.text = txt_grupe
 
 func set_task_obj(json_obj):
 	task_json_obj = json_obj
 	for obj in task_json_obj:
 		if task_json_obj[obj]['task_grupe'] == task_grupe:
 			var item = TaskEXpProgrex.instantiate()
+			item.set_task_uuid(obj)
+			item.set_task_name(task_json_obj[obj]['task_name'] )
+			item.connect('task_end',Callable(self,'catch_task_call'))
+			item.connect('task_start',Callable(self,'on_task_start'))
 			add_child(item)
+			task_items.append(item)
 
 func act():
-	pass
+	for item in task_items:
+		item.act()
+
+func catch_task_call(uuid):
+	emit_signal('task_end', uuid)
+
+func on_change_task(uuid):
+	for item in task_items:
+		item.on_change_task(uuid)
+
+func on_task_start(uuid):
+	print(uuid,' ::')
+	emit_signal('task_start',uuid)
 "
 
 [node name="CategoryTabs" type="VBoxContainer"]

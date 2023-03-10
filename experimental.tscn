@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=3 uid="uid://4ss8qvvr8x0j"]
+[gd_scene load_steps=3 format=3 uid="uid://4ss8qvvr8x0j"]
 
-[ext_resource type="PackedScene" uid="uid://ewuwvsd51ksg" path="res://commponent/category_tabs.tscn" id="2_h41aw"]
 [ext_resource type="PackedScene" uid="uid://s84g56a8l7aa" path="res://utylity/tasks.tscn" id="3_kaly8"]
 
 [sub_resource type="GDScript" id="GDScript_7d3ng"]
@@ -8,20 +7,42 @@ script/source = "extends Panel
 
 var ManaBackend = null
 
+var CategoryTabsItems = preload(\"res://commponent/category_tabs.tscn\")
+
+var category_tabs = []
+
+var task_data_json = {}
 
 func _ready():
-	var json_obj = $Tasks.get_task_list()
-	
-	$ScrollContainer/VBoxContainer/CategoryTabs.set_task_grupe('attributes')
-	$ScrollContainer/VBoxContainer/CategoryTabs.set_task_obj(json_obj)
-	$ScrollContainer/VBoxContainer/CategoryTabs2.set_task_obj(json_obj)
+	task_data_json = $Tasks.get_task_list()
+	var categorys = []
+	for obj in task_data_json:
+		if task_data_json[obj]['task_grupe'] not in categorys:
+			categorys.append(task_data_json[obj]['task_grupe'])
+
+	for name in categorys:
+		var tab = CategoryTabsItems.instantiate()
+		tab.set_task_grupe('attributes')
+		tab.set_task_obj(task_data_json)
+		$ScrollContainer/VBoxContainer.add_child(tab)
+		tab.connect('task_end',Callable(self,'catch_task_call'))
+		tab.connect('task_start',Callable(self,'on_change_task'))
+		category_tabs.append(tab)
 
 func set_mana_backend(mana_backend):
 	ManaBackend = mana_backend
 
 func act():
-	if visible:
-		pass
+	for item in category_tabs:
+		if visible:
+			item.act()
+
+func catch_task_call(uuid):
+	print(task_data_json[uuid])
+
+func on_change_task(uuid):
+	for item in category_tabs:
+		item.on_change_task(uuid)
 
 "
 
@@ -44,11 +65,5 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="CategoryTabs" parent="ScrollContainer/VBoxContainer" instance=ExtResource("2_h41aw")]
-layout_mode = 2
-
-[node name="CategoryTabs2" parent="ScrollContainer/VBoxContainer" instance=ExtResource("2_h41aw")]
-layout_mode = 2
 
 [node name="Tasks" parent="." instance=ExtResource("3_kaly8")]

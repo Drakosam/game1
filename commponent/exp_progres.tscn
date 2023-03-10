@@ -7,6 +7,7 @@ var task_status = false
 var my_uuid = ''
 
 signal task_end(uuid)
+signal task_start(uuid)
 
 
 func _ready():
@@ -14,15 +15,14 @@ func _ready():
 
 func set_task_name(txt):
 	$Label.text = txt
-	
+
 func set_task_uuid(in_uuid):
 	my_uuid=in_uuid
-	
+
 func set_task_steps(steps):
 	$ProgressBar.max_value = steps
 
 func act():
-
 	if not task_status:
 		return
 
@@ -34,13 +34,23 @@ func act():
 
 func _on_button_button_down():
 	task_status = not task_status
-	
+
 	if task_status:
 		$Button.text = 'Stop'
+		emit_signal('task_start',my_uuid)
 	else:
 		$Button.text = 'Start'
-	
+		
 
+
+func on_change_task(uuid):
+	if not task_status:
+		return 
+
+	if uuid == my_uuid:
+		return
+
+	task_status = false
 "
 
 [node name="ExpProgres" type="Panel"]
