@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://s84g56a8l7aa"]
+
+[sub_resource type="GDScript" id="GDScript_0qk2m"]
+script/source = "extends Node
+
+
+func _ready():
+	pass # Replace with function body.
+
+func get_task_list():
+	return task_obj
+
+var task_obj = {
+	'ebcbfc7a-3da5-44ed-b7a7-32840a240357':{
+		'task_grupe':'attributes',
+		'task_name':\"More Mana\",
+		'task_steps': 100,
+		'task_step_increment': 1,
+		'task_mana_cost': 5,
+		'task_mana_increment': 0.1,
+		'reword':'max_mana'
+	},
+	'3a89a33e-bbcb-422f-8465-4ec554ecf359':{
+		'task_grupe':'attributes',
+		'task_name':\"More Power\",
+		'task_steps': 100,
+		'task_step_increment': 1,
+		'task_mana_cost': 5,
+		'task_mana_increment': 0.1,
+		'reword':'power'
+	}
+}
+"
+
+[node name="Tasks" type="Node"]
+script = SubResource("GDScript_0qk2m")

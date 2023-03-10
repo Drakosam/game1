@@ -1,6 +1,35 @@
 [gd_scene load_steps=2 format=3 uid="uid://4i03ua8e5end"]
 
-[ext_resource type="Script" path="res://script/manaHarvest.gd" id="1_61ki8"]
+[sub_resource type="GDScript" id="GDScript_qrxbf"]
+script/source = "extends Panel
+
+
+var ManaBackend = null
+
+func _ready():
+	$ProgressBar.value = 0
+
+
+func set_mana_backend(mana_backend):
+	ManaBackend = mana_backend
+
+
+func act():
+	
+	if ManaBackend.current_mana >= ManaBackend.max_mana:
+		return
+	
+	if not visible:
+		return
+	
+	if $ProgressBar.value >= $ProgressBar.max_value:
+		$ProgressBar.value = 0
+		ManaBackend.up_mana_lvl()
+	else: 
+		$ProgressBar.value += 1
+		
+	$ManaLabel.text = str(ManaBackend.current_mana) + ' / ' + str(ManaBackend.max_mana)
+"
 
 [node name="ManaHarvest" type="Panel"]
 anchors_preset = 15
@@ -8,7 +37,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_61ki8")
+script = SubResource("GDScript_qrxbf")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 layout_mode = 0

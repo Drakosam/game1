@@ -1,6 +1,19 @@
 [gd_scene load_steps=2 format=3 uid="uid://dxrv450m03klr"]
 
-[ext_resource type="Script" path="res://script/ManaBackend.gd" id="1_j2q5d"]
+[sub_resource type="GDScript" id="GDScript_frn1n"]
+script/source = "extends Node
+
+
+var max_mana = 10
+var current_mana = 0
+
+func _ready():
+	pass # Replace with function body.
+
+func up_mana_lvl():
+	if current_mana < max_mana:
+		current_mana += 1
+"
 
 [node name="ManaBackend" type="Node"]
-script = ExtResource("1_j2q5d")
+script = SubResource("GDScript_frn1n")

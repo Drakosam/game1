@@ -1,11 +1,53 @@
-[gd_scene load_steps=4 format=3 uid="uid://d2yfwkqunknbf"]
+[gd_scene load_steps=5 format=3 uid="uid://d2yfwkqunknbf"]
 
-[ext_resource type="Script" path="res://script/main.gd" id="1_pgnr8"]
 [ext_resource type="PackedScene" uid="uid://4i03ua8e5end" path="res://mana_harvest.tscn" id="2_ghu4h"]
+[ext_resource type="PackedScene" uid="uid://4ss8qvvr8x0j" path="res://experimental.tscn" id="3_ooko8"]
 [ext_resource type="PackedScene" uid="uid://dxrv450m03klr" path="res://mana_backend.tscn" id="3_rjkev"]
 
+[sub_resource type="GDScript" id="GDScript_q2qxx"]
+script/source = "extends Node2D
+
+
+var PanelManaHarvest = null
+var PanelExperimental = null
+
+var ManaBackend = null
+
+
+func _ready():
+	ManaBackend = $ManaBackend
+	
+	PanelManaHarvest = $CanvasLayer/PanelContainer/ManaHarvest
+	PanelExperimental = $CanvasLayer/PanelContainer/Experimental
+	
+	PanelManaHarvest.set_mana_backend(ManaBackend)
+	PanelExperimental.set_mana_backend(ManaBackend)
+	
+	_hide_all_panel()
+	PanelManaHarvest.visible = true
+
+func _update_panels():
+	PanelManaHarvest.act()
+	PanelExperimental.act()
+
+func _on_timer_timeout():
+	_update_panels()
+
+func _hide_all_panel():
+	PanelManaHarvest.visible = false
+	PanelExperimental.visible = false
+
+func _on_mana_button_button_down():
+	_hide_all_panel()
+	PanelManaHarvest.visible = true
+
+func _on_exp_button_button_down():
+	_hide_all_panel()
+	PanelExperimental.visible = true
+"
+
 [node name="main" type="Node2D"]
-script = ExtResource("1_pgnr8")
+script = SubResource("GDScript_q2qxx")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -33,8 +75,19 @@ custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Exp"
 
-[node name="ManaHarvest" parent="CanvasLayer" instance=ExtResource("2_ghu4h")]
-offset_left = 60.0
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ManaHarvest" parent="CanvasLayer/PanelContainer" instance=ExtResource("2_ghu4h")]
+layout_mode = 2
+
+[node name="Experimental" parent="CanvasLayer/PanelContainer" instance=ExtResource("3_ooko8")]
+layout_mode = 2
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.1

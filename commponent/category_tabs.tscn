@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://ewuwvsd51ksg"]
+
+[sub_resource type="GDScript" id="GDScript_g1smp"]
+script/source = "extends VBoxContainer
+
+var task_grupe = ''
+var task_json_obj = {}
+
+var TaskEXpProgrex = preload(\"res://commponent/exp_progres.tscn\")
+
+
+func _ready():
+	pass 
+
+func set_task_grupe(txt_grupe):
+	task_grupe=txt_grupe
+
+func set_task_obj(json_obj):
+	task_json_obj = json_obj
+	for obj in task_json_obj:
+		if task_json_obj[obj]['task_grupe'] == task_grupe:
+			var item = TaskEXpProgrex.instantiate()
+			add_child(item)
+
+func act():
+	pass
+"
+
+[node name="CategoryTabs" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_g1smp")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "xxxx"
+horizontal_alignment = 1
+vertical_alignment = 1
